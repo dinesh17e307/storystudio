@@ -21,11 +21,20 @@
   const progressBar = document.getElementById('progressBar');
   const progressFill = document.getElementById('progressFill');
   const progressLabel = document.getElementById('progressLabel');
+  const exportBtn = document.getElementById('exportBtn');
+  const exportStatus = document.getElementById('exportStatus');
+  const exportStatusText = document.getElementById('exportStatusText');
   const voiceSpeed = document.getElementById('voiceSpeed');
   const voicePitch = document.getElementById('voicePitch');
   const charBtns = document.querySelectorAll('.char-btn');
-  const starsContainer = document.getElementById('stars');
-  const butterfliesContainer = document.getElementById('butterflies');
+  const themeBtns = document.querySelectorAll('.theme-btn');
+  const floatingDecor = document.getElementById('floatingDecor');
+  const forestTrees = document.getElementById('forestTrees');
+  const fireflies = document.getElementById('fireflies');
+  const spaceStars = document.getElementById('spaceStars');
+  const shootingStars = document.getElementById('shootingStars');
+  const bubbles = document.getElementById('bubbles');
+  const fishSchool = document.getElementById('fishSchool');
 
   // State
   let sentences = [];
@@ -35,14 +44,27 @@
   let selectedVoice = null;
   let voicesReady = false;
   let currentChar = 'bear';
+  let currentTheme = 'meadow';
   let mouthAnimInterval = null;
   let visualTimer = null;
+  let isExporting = false;
 
   const CHAR_NAMES = {
     bear: 'Buddy Bear',
     bunny: 'Bouncy Bunny',
     fox: 'Foxy Fox',
-    owl: 'Wise Owl'
+    owl: 'Wise Owl',
+    penguin: 'Pippin Penguin',
+    dragon: 'Dazzle Dragon',
+    cat: 'Whiskers Cat',
+    unicorn: 'Sparkle Unicorn'
+  };
+
+  const THEME_DECOR = {
+    meadow: ['✨', '⭐', '🌟', '💫', '🦋', '🐝', '🌸'],
+    forest: ['🍃', '🌿', '🦋', '🐛', '🌺', '🍀'],
+    space: ['🌟', '💫', '✨', '🛸', '☄️', '🌙'],
+    underwater: ['🐠', '🐟', '🦀', '🐙', '🫧', '💎']
   };
 
   const SAMPLE_STORY = `Twinkle, twinkle, little star,
@@ -54,28 +76,133 @@ How I wonder what you are!`;
 
   // ===== Initialize background decorations =====
   function initBackground() {
-    const starEmojis = ['✨', '⭐', '🌟', '💫'];
-    for (let i = 0; i < 20; i++) {
+    buildForestTrees();
+    buildFireflies();
+    buildSpaceStars();
+    buildBubbles();
+    buildFish();
+    switchTheme('meadow');
+  }
+
+  function clearContainer(el) {
+    if (el) el.innerHTML = '';
+  }
+
+  function buildForestTrees() {
+    clearContainer(forestTrees);
+    const treeEmojis = ['🌲', '🌳', '🌴'];
+    for (let i = 0; i < 12; i++) {
+      const tree = document.createElement('span');
+      tree.className = 'tree';
+      tree.textContent = treeEmojis[i % 3];
+      tree.style.left = `${i * 9 - 2}%`;
+      tree.style.fontSize = `${1.8 + Math.random() * 2}rem`;
+      tree.style.animationDelay = `${Math.random() * 2}s`;
+      forestTrees.appendChild(tree);
+    }
+  }
+
+  function buildFireflies() {
+    clearContainer(fireflies);
+    for (let i = 0; i < 15; i++) {
+      const fly = document.createElement('span');
+      fly.className = 'firefly';
+      fly.style.left = `${Math.random() * 100}%`;
+      fly.style.top = `${20 + Math.random() * 60}%`;
+      fly.style.animationDelay = `${Math.random() * 4}s`;
+      fly.style.animationDuration = `${2 + Math.random() * 3}s`;
+      fireflies.appendChild(fly);
+    }
+  }
+
+  function buildSpaceStars() {
+    clearContainer(spaceStars);
+    for (let i = 0; i < 60; i++) {
       const star = document.createElement('span');
-      star.className = 'star';
-      star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+      star.className = 'space-star';
+      star.textContent = Math.random() > 0.7 ? '✦' : '·';
       star.style.left = `${Math.random() * 100}%`;
-      star.style.top = `${Math.random() * 55}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.fontSize = `${4 + Math.random() * 12}px`;
       star.style.animationDelay = `${Math.random() * 3}s`;
-      star.style.animationDuration = `${1.5 + Math.random() * 2}s`;
-      starsContainer.appendChild(star);
+      spaceStars.appendChild(star);
     }
 
-    const butterflyEmojis = ['🦋', '🐝', '🌸'];
-    for (let i = 0; i < 5; i++) {
-      const bf = document.createElement('span');
-      bf.className = 'butterfly';
-      bf.textContent = butterflyEmojis[i % butterflyEmojis.length];
-      bf.style.left = `${10 + Math.random() * 80}%`;
-      bf.style.top = `${30 + Math.random() * 40}%`;
-      bf.style.animationDelay = `${Math.random() * 8}s`;
-      bf.style.animationDuration = `${10 + Math.random() * 8}s`;
-      butterfliesContainer.appendChild(bf);
+    clearContainer(shootingStars);
+    for (let i = 0; i < 3; i++) {
+      const ss = document.createElement('span');
+      ss.className = 'shooting-star';
+      ss.style.top = `${10 + Math.random() * 40}%`;
+      ss.style.left = `${Math.random() * 60}%`;
+      ss.style.animationDelay = `${i * 4 + Math.random() * 3}s`;
+      shootingStars.appendChild(ss);
+    }
+  }
+
+  function buildBubbles() {
+    clearContainer(bubbles);
+    for (let i = 0; i < 20; i++) {
+      const bubble = document.createElement('span');
+      bubble.className = 'bubble';
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.width = bubble.style.height = `${8 + Math.random() * 24}px`;
+      bubble.style.animationDelay = `${Math.random() * 6}s`;
+      bubble.style.animationDuration = `${4 + Math.random() * 6}s`;
+      bubbles.appendChild(bubble);
+    }
+  }
+
+  function buildFish() {
+    clearContainer(fishSchool);
+    const fishEmojis = ['🐠', '🐟', '🐡', '🦈'];
+    for (let i = 0; i < 6; i++) {
+      const fish = document.createElement('span');
+      fish.className = 'fish';
+      fish.textContent = fishEmojis[i % fishEmojis.length];
+      fish.style.top = `${30 + Math.random() * 50}%`;
+      fish.style.animationDelay = `${Math.random() * 8}s`;
+      fish.style.animationDuration = `${8 + Math.random() * 10}s`;
+      fishSchool.appendChild(fish);
+    }
+  }
+
+  function buildFloatingDecor(theme) {
+    clearContainer(floatingDecor);
+    const emojis = THEME_DECOR[theme] || THEME_DECOR.meadow;
+    const count = theme === 'space' ? 25 : 18;
+
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'float-item';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.top = `${Math.random() * 70}%`;
+      el.style.fontSize = `${12 + Math.random() * 14}px`;
+      el.style.animationDelay = `${Math.random() * 5}s`;
+      el.style.animationDuration = `${3 + Math.random() * 5}s`;
+      floatingDecor.appendChild(el);
+    }
+  }
+
+  function switchTheme(theme) {
+    currentTheme = theme;
+    document.body.className = `theme-${theme}`;
+
+    themeBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+
+    buildFloatingDecor(theme);
+
+    const themeNames = {
+      meadow: 'Sunny Meadow',
+      forest: 'Enchanted Forest',
+      space: 'Outer Space',
+      underwater: 'Under the Sea'
+    };
+
+    if (!isPlaying && !isExporting) {
+      showBubbleText(`Wow! We're in the ${themeNames[theme]}! 🎉`);
     }
   }
 
@@ -229,7 +356,8 @@ How I wonder what you are!`;
 
   function updatePlayButton() {
     const hasContent = storyInput.value.trim().length > 0;
-    playBtn.disabled = !hasContent;
+    playBtn.disabled = !hasContent || isExporting;
+    exportBtn.disabled = !hasContent || isPlaying || isExporting;
   }
 
   // ===== Story playback =====
@@ -330,10 +458,60 @@ How I wonder what you are!`;
   }
 
   function resetControls() {
-    playBtn.disabled = !storyInput.value.trim();
+    playBtn.disabled = !storyInput.value.trim() || isExporting;
+    exportBtn.disabled = !storyInput.value.trim() || isExporting;
     pauseBtn.disabled = true;
     pauseBtn.innerHTML = '<span class="btn-icon">⏸</span> Pause';
     stopBtn.disabled = true;
+  }
+
+  // ===== MP3 Export =====
+  async function exportStoryAudio() {
+    const lines = parseStory(storyInput.value);
+    if (!lines.length || isExporting || isPlaying) return;
+
+    isExporting = true;
+    updatePlayButton();
+    exportBtn.disabled = true;
+    exportStatus.hidden = false;
+    exportStatusText.textContent = 'Loading audio engine...';
+
+    try {
+      if (typeof meSpeak !== 'undefined' && !meSpeak.isConfigLoaded()) {
+        await new Promise((resolve, reject) => {
+          meSpeak.loadConfig('https://www.masswerk.at/mespeak/mespeak_config.json', resolve, reject);
+        });
+        await new Promise((resolve, reject) => {
+          meSpeak.loadVoice('https://www.masswerk.at/mespeak/voices/en.json', resolve, reject);
+        });
+      }
+
+      const result = await StoryAudioExport.exportStory(
+        lines,
+        {
+          pitch: parseFloat(voicePitch.value),
+          speed: parseFloat(voiceSpeed.value),
+          format: 'mp3'
+        },
+        (progress) => {
+          exportStatusText.textContent = `Recording line ${progress.current} of ${progress.total}...`;
+          showBubbleText(`🎵 "${progress.text}"`);
+        }
+      );
+
+      StoryAudioExport.downloadBlob(result.blob, result.filename);
+      showBubbleText(`🎉 Your cartoon ${result.mime.includes('mp3') ? 'MP3' : 'audio'} is ready! Check your downloads!`);
+      character.classList.add('excited');
+      launchConfetti();
+      setTimeout(() => character.classList.remove('excited'), 2000);
+    } catch (err) {
+      console.error('Export error:', err);
+      showBubbleText('Oops! Could not create audio. Try again or use Chrome browser! 😅');
+    } finally {
+      isExporting = false;
+      exportStatus.hidden = true;
+      updatePlayButton();
+    }
   }
 
   function delay(ms) {
@@ -510,6 +688,12 @@ How I wonder what you are!`;
   charBtns.forEach(btn => {
     btn.addEventListener('click', () => switchCharacter(btn.dataset.char));
   });
+
+  themeBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchTheme(btn.dataset.theme));
+  });
+
+  exportBtn.addEventListener('click', exportStoryAudio);
 
   // ===== Boot =====
   initBackground();

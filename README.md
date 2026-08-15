@@ -4,10 +4,11 @@ An animated storytelling website for kids! Upload rhymes or stories and watch a 
 
 ## Features
 
-- **Animated cartoon characters** — Choose Buddy Bear, Bouncy Bunny, Foxy Fox, or Wise Owl
-- **Fancy kid-friendly background** — Rainbow, clouds, stars, butterflies, and rolling hills
+- **8 animated cartoon characters** — Bear, Bunny, Fox, Owl, Penguin, Dragon, Cat & Unicorn
+- **4 magical backgrounds** — Sunny Meadow, Enchanted Forest, Outer Space & Under the Sea
 - **Speech bubble tooltips** — See exactly what the character is saying
 - **Cartoon voice** — High-pitched, playful text-to-speech narration
+- **Download MP3** — Export your story as a cartoon-voice audio file
 - **Upload stories** — Drag & drop or browse `.txt` files, or type/paste directly
 - **Play controls** — Play, pause, resume, and stop
 - **Adjustable voice** — Tune speed and cartoon pitch to your liking
@@ -26,14 +27,18 @@ npx serve .
 ## How to Use
 
 1. **Upload** a `.txt` file with your rhyme or story, or paste text in the box
-2. **Pick** your favorite cartoon storyteller
-3. Click **"Tell My Story!"** and watch the magic happen!
-4. Adjust **voice speed** and **cartoon pitch** sliders for the perfect silly voice
+2. **Pick** a magical background theme
+3. **Choose** your favorite cartoon storyteller
+4. Click **"Tell My Story!"** and watch the magic happen!
+5. Click **"Download MP3"** to save the cartoon voice audio file
+6. Adjust **voice speed** and **cartoon pitch** sliders for the perfect silly voice
 
 ## Browser Support
 
-Uses the [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) for cartoon narration. Works best in Chrome and Edge.
+- **Live narration**: Web Speech API (best in Chrome/Edge)
+- **MP3 export**: Uses meSpeak.js + lamejs (works in all modern browsers)
+- **Themes & animations**: All modern browsers
 
 ## Sample Story
 
-A sample nursery rhyme is pre-loaded so you can try it right away!
+A sample nursery rhyme is pre-loaded so you can try it right away! Also check `samples/twinkle-star.txt`.

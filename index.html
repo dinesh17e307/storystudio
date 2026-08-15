@@ -10,20 +10,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
+<body class="theme-meadow">
   <!-- Fancy animated background -->
-  <div class="sky" aria-hidden="true">
-    <div class="sun"></div>
-    <div class="rainbow"></div>
-    <div class="cloud cloud-1"></div>
-    <div class="cloud cloud-2"></div>
-    <div class="cloud cloud-3"></div>
-    <div class="stars" id="stars"></div>
-    <div class="butterflies" id="butterflies"></div>
-    <div class="hills">
-      <div class="hill hill-back"></div>
-      <div class="hill hill-front"></div>
+  <div class="sky" id="sky" aria-hidden="true">
+    <!-- Meadow -->
+    <div class="theme-layer theme-meadow-layer">
+      <div class="sun"></div>
+      <div class="rainbow"></div>
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="hills">
+        <div class="hill hill-back"></div>
+        <div class="hill hill-front"></div>
+      </div>
     </div>
+    <!-- Forest -->
+    <div class="theme-layer theme-forest-layer">
+      <div class="forest-trees" id="forestTrees"></div>
+      <div class="fireflies" id="fireflies"></div>
+      <div class="mushrooms">
+        <span class="mushroom m1">🍄</span>
+        <span class="mushroom m2">🍄</span>
+        <span class="mushroom m3">🪵</span>
+      </div>
+    </div>
+    <!-- Space -->
+    <div class="theme-layer theme-space-layer">
+      <div class="planet planet-1"></div>
+      <div class="planet planet-2"></div>
+      <div class="planet planet-3"></div>
+      <div class="rocket">🚀</div>
+      <div class="space-stars" id="spaceStars"></div>
+      <div class="shooting-stars" id="shootingStars"></div>
+    </div>
+    <!-- Underwater -->
+    <div class="theme-layer theme-underwater-layer">
+      <div class="light-rays"></div>
+      <div class="bubbles" id="bubbles"></div>
+      <div class="fish-school" id="fishSchool"></div>
+      <div class="seaweed s1"></div>
+      <div class="seaweed s2"></div>
+      <div class="seaweed s3"></div>
+      <div class="coral">🪸</div>
+    </div>
+    <div class="floating-decor" id="floatingDecor"></div>
   </div>
 
   <div class="app">
@@ -55,6 +86,16 @@
           rows="6"
         ></textarea>
 
+        <div class="theme-picker">
+          <label>Choose a magical background:</label>
+          <div class="themes" role="group" aria-label="Choose background theme">
+            <button class="theme-btn active" data-theme="meadow" title="Sunny Meadow">🌈</button>
+            <button class="theme-btn" data-theme="forest" title="Enchanted Forest">🌲</button>
+            <button class="theme-btn" data-theme="space" title="Outer Space">🚀</button>
+            <button class="theme-btn" data-theme="underwater" title="Under the Sea">🐠</button>
+          </div>
+        </div>
+
         <div class="character-picker">
           <label>Pick your storyteller:</label>
           <div class="characters" role="group" aria-label="Choose character">
@@ -62,6 +103,10 @@
             <button class="char-btn" data-char="bunny" title="Bouncy Bunny">🐰</button>
             <button class="char-btn" data-char="fox" title="Foxy Fox">🦊</button>
             <button class="char-btn" data-char="owl" title="Wise Owl">🦉</button>
+            <button class="char-btn" data-char="penguin" title="Pippin Penguin">🐧</button>
+            <button class="char-btn" data-char="dragon" title="Dazzle Dragon">🐉</button>
+            <button class="char-btn" data-char="cat" title="Whiskers Cat">🐱</button>
+            <button class="char-btn" data-char="unicorn" title="Sparkle Unicorn">🦄</button>
           </div>
         </div>
 
@@ -75,6 +120,14 @@
           <button class="btn btn-ghost" id="stopBtn" disabled>
             <span class="btn-icon">⏹</span> Stop
           </button>
+          <button class="btn btn-export" id="exportBtn" disabled>
+            <span class="btn-icon">🎵</span> Download MP3
+          </button>
+        </div>
+
+        <div class="export-status" id="exportStatus" hidden>
+          <div class="export-spinner"></div>
+          <span id="exportStatusText">Creating cartoon audio...</span>
         </div>
 
         <div class="voice-settings">
@@ -179,6 +232,100 @@
                 <polygon class="beak" points="100,125 88,140 112,140" fill="#E8A020"/>
                 <path class="mouth" d="M 88 140 Q 100 148 112 140" fill="none" stroke="#C47A10" stroke-width="2"/>
               </svg>
+
+              <svg class="char-svg char-penguin hidden" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <ellipse class="body" cx="100" cy="195" rx="52" ry="48" fill="#2D3748"/>
+                <ellipse class="belly" cx="100" cy="200" rx="35" ry="38" fill="white"/>
+                <ellipse class="head" cx="100" cy="105" rx="55" ry="52" fill="#2D3748"/>
+                <ellipse class="face-white" cx="100" cy="115" rx="38" ry="35" fill="white"/>
+                <ellipse class="eye eye-left" cx="78" cy="98" rx="13" ry="15" fill="white"/>
+                <ellipse class="eye eye-right" cx="122" cy="98" rx="13" ry="15" fill="white"/>
+                <circle class="pupil pupil-left" cx="80" cy="100" r="6" fill="#1A202C"/>
+                <circle class="pupil pupil-right" cx="124" cy="100" r="6" fill="#1A202C"/>
+                <circle class="shine shine-left" cx="82" cy="98" r="2.5" fill="white"/>
+                <circle class="shine shine-right" cx="126" cy="98" r="2.5" fill="white"/>
+                <ellipse class="beak" cx="100" cy="118" rx="10" ry="8" fill="#F6AD55"/>
+                <path class="mouth" d="M 92 125 Q 100 132 108 125" fill="none" stroke="#E09040" stroke-width="2"/>
+                <ellipse class="cheek cheek-left" cx="68" cy="112" rx="8" ry="6" fill="#FFB6C1" opacity="0.5"/>
+                <ellipse class="cheek cheek-right" cx="132" cy="112" rx="8" ry="6" fill="#FFB6C1" opacity="0.5"/>
+                <ellipse class="flipper flipper-left" cx="48" cy="185" rx="18" ry="30" fill="#2D3748" transform="rotate(20 48 185)"/>
+                <ellipse class="flipper flipper-right" cx="152" cy="185" rx="18" ry="30" fill="#2D3748" transform="rotate(-20 152 185)"/>
+                <ellipse class="foot foot-left" cx="78" cy="238" rx="16" ry="8" fill="#F6AD55"/>
+                <ellipse class="foot foot-right" cx="122" cy="238" rx="16" ry="8" fill="#F6AD55"/>
+              </svg>
+
+              <svg class="char-svg char-dragon hidden" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="horn horn-left" points="60,55 50,15 75,45" fill="#6BCB77"/>
+                <polygon class="horn horn-right" points="140,55 150,15 125,45" fill="#6BCB77"/>
+                <ellipse class="body" cx="100" cy="200" rx="55" ry="48" fill="#6BCB77"/>
+                <ellipse class="belly" cx="100" cy="205" rx="38" ry="32" fill="#A8E6CF"/>
+                <ellipse class="head" cx="100" cy="110" rx="65" ry="58" fill="#6BCB77"/>
+                <ellipse class="snout" cx="100" cy="125" rx="30" ry="24" fill="#5ABF6A"/>
+                <ellipse class="nostril nostril-left" cx="88" cy="118" rx="5" ry="4" fill="#3D8B50"/>
+                <ellipse class="nostril nostril-right" cx="112" cy="118" rx="5" ry="4" fill="#3D8B50"/>
+                <path class="mouth" d="M 82 132 Q 100 148 118 132" fill="none" stroke="#3D8B50" stroke-width="3" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="72" cy="95" rx="14" ry="16" fill="white"/>
+                <ellipse class="eye eye-right" cx="128" cy="95" rx="14" ry="16" fill="white"/>
+                <ellipse class="pupil pupil-left" cx="75" cy="97" rx="7" ry="9" fill="#2D5016"/>
+                <ellipse class="pupil pupil-right" cx="131" cy="97" rx="7" ry="9" fill="#2D5016"/>
+                <circle class="shine shine-left" cx="78" cy="94" r="3" fill="white"/>
+                <circle class="shine shine-right" cx="134" cy="94" r="3" fill="white"/>
+                <path class="wing wing-left" d="M 45 170 Q 10 140 20 110 Q 40 130 55 155 Z" fill="#5ABF6A" opacity="0.8"/>
+                <path class="wing wing-right" d="M 155 170 Q 190 140 180 110 Q 160 130 145 155 Z" fill="#5ABF6A" opacity="0.8"/>
+                <path class="tail" d="M 100 240 Q 80 260 60 250 Q 90 245 100 240" fill="#6BCB77"/>
+                <ellipse class="cheek cheek-left" cx="58" cy="115" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
+                <ellipse class="cheek cheek-right" cx="142" cy="115" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
+              </svg>
+
+              <svg class="char-svg char-cat hidden" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="ear-tri ear-left" points="55,75 40,25 75,55" fill="#F6AD55"/>
+                <polygon class="ear-tri ear-right" points="145,75 160,25 125,55" fill="#F6AD55"/>
+                <polygon class="ear-inner-tri ear-left" points="55,70 45,35 70,55" fill="#FFB6C1"/>
+                <polygon class="ear-inner-tri ear-right" points="145,70 155,35 130,55" fill="#FFB6C1"/>
+                <ellipse class="body" cx="100" cy="200" rx="50" ry="42" fill="#F6AD55"/>
+                <ellipse class="belly" cx="100" cy="205" rx="32" ry="28" fill="#FEF3C7"/>
+                <ellipse class="head" cx="100" cy="110" rx="60" ry="55" fill="#F6AD55"/>
+                <ellipse class="snout" cx="100" cy="125" rx="20" ry="16" fill="#FEF3C7"/>
+                <ellipse class="nose" cx="100" cy="120" rx="8" ry="6" fill="#FFB6C1"/>
+                <path class="mouth" d="M 100 126 L 100 132 M 88 132 Q 100 140 112 132" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="75" cy="98" rx="13" ry="15" fill="white"/>
+                <ellipse class="eye eye-right" cx="125" cy="98" rx="13" ry="15" fill="white"/>
+                <ellipse class="pupil pupil-left" cx="77" cy="100" rx="5" ry="10" fill="#2D3748"/>
+                <ellipse class="pupil pupil-right" cx="127" cy="100" rx="5" ry="10" fill="#2D3748"/>
+                <circle class="shine shine-left" cx="79" cy="96" r="2.5" fill="white"/>
+                <circle class="shine shine-right" cx="129" cy="96" r="2.5" fill="white"/>
+                <line class="whisker" x1="40" y1="118" x2="70" y2="120" stroke="#888" stroke-width="1.5"/>
+                <line class="whisker" x1="40" y1="128" x2="70" y2="126" stroke="#888" stroke-width="1.5"/>
+                <line class="whisker" x1="130" y1="120" x2="160" y2="118" stroke="#888" stroke-width="1.5"/>
+                <line class="whisker" x1="130" y1="126" x2="160" y2="128" stroke="#888" stroke-width="1.5"/>
+                <ellipse class="cheek cheek-left" cx="62" cy="118" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
+                <ellipse class="cheek cheek-right" cx="138" cy="118" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
+              </svg>
+
+              <svg class="char-svg char-unicorn hidden" viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="horn" points="100,15 92,55 108,55" fill="#FFD93D"/>
+                <ellipse class="horn-glow" cx="100" cy="35" rx="8" ry="15" fill="#FFF9C4" opacity="0.5"/>
+                <ellipse class="mane" cx="75" cy="70" rx="25" ry="20" fill="#FF6B9D" opacity="0.7"/>
+                <ellipse class="mane m2" cx="125" cy="70" rx="25" ry="20" fill="#A855F7" opacity="0.7"/>
+                <ellipse class="mane m3" cx="100" cy="60" rx="20" ry="18" fill="#3B82F6" opacity="0.6"/>
+                <ellipse class="body" cx="100" cy="210" rx="48" ry="42" fill="white"/>
+                <ellipse class="head" cx="100" cy="120" rx="58" ry="52" fill="white"/>
+                <ellipse class="snout" cx="100" cy="132" rx="22" ry="18" fill="#F8F0FF"/>
+                <ellipse class="nose" cx="100" cy="126" rx="8" ry="6" fill="#FFB6C1"/>
+                <path class="mouth" d="M 88 138 Q 100 148 112 138" fill="none" stroke="#C084FC" stroke-width="2.5" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="78" cy="108" rx="13" ry="15" fill="white"/>
+                <ellipse class="eye eye-right" cx="122" cy="108" rx="13" ry="15" fill="white"/>
+                <circle class="pupil pupil-left" cx="80" cy="110" r="6" fill="#7C3AED"/>
+                <circle class="pupil pupil-right" cx="124" cy="110" r="6" fill="#7C3AED"/>
+                <circle class="shine shine-left" cx="82" cy="108" r="2.5" fill="white"/>
+                <circle class="shine shine-right" cx="126" cy="108" r="2.5" fill="white"/>
+                <ellipse class="cheek cheek-left" cx="64" cy="122" rx="10" ry="7" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse class="cheek cheek-right" cx="136" cy="122" rx="10" ry="7" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse class="leg leg-1" cx="72" cy="248" rx="12" ry="18" fill="white"/>
+                <ellipse class="leg leg-2" cx="128" cy="248" rx="12" ry="18" fill="white"/>
+                <ellipse class="hoof hoof-1" cx="72" cy="258" rx="10" ry="5" fill="#C084FC"/>
+                <ellipse class="hoof hoof-2" cx="128" cy="258" rx="10" ry="5" fill="#C084FC"/>
+              </svg>
             </div>
 
             <div class="sparkle-ring" id="sparkleRing" aria-hidden="true"></div>
@@ -197,6 +344,9 @@
     </footer>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+  <script src="https://www.masswerk.at/mespeak/mespeak.js"></script>
+  <script src="js/audio-export.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
