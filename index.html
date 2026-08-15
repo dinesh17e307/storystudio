@@ -29,18 +29,14 @@
     <div class="theme-layer theme-forest-layer">
       <div class="forest-trees" id="forestTrees"></div>
       <div class="fireflies" id="fireflies"></div>
-      <div class="mushrooms">
-        <span class="mushroom m1">🍄</span>
-        <span class="mushroom m2">🍄</span>
-        <span class="mushroom m3">🪵</span>
-      </div>
+      <div class="mushrooms" id="mushrooms"></div>
     </div>
     <!-- Space -->
     <div class="theme-layer theme-space-layer">
       <div class="planet planet-1"></div>
       <div class="planet planet-2"></div>
       <div class="planet planet-3"></div>
-      <div class="rocket">🚀</div>
+      <div class="rocket-wrap" id="rocketWrap"></div>
       <div class="space-stars" id="spaceStars"></div>
       <div class="shooting-stars" id="shootingStars"></div>
     </div>
@@ -52,7 +48,7 @@
       <div class="seaweed s1"></div>
       <div class="seaweed s2"></div>
       <div class="seaweed s3"></div>
-      <div class="coral">🪸</div>
+      <div class="coral-wrap" id="coralWrap"></div>
     </div>
     <div class="floating-decor" id="floatingDecor"></div>
   </div>
@@ -60,7 +56,7 @@
   <div class="app">
     <header class="header">
       <div class="logo">
-        <span class="logo-icon">📚</span>
+        <span class="logo-icon" id="logoIcon"></span>
         <h1>StoryBuddy</h1>
       </div>
       <p class="tagline">Upload a rhyme or story — watch your cartoon friend tell it!</p>
@@ -73,7 +69,7 @@
 
         <div class="upload-zone" id="uploadZone">
           <input type="file" id="fileInput" accept=".txt,.md,.text" hidden />
-          <div class="upload-icon">📖</div>
+          <div class="upload-icon" id="uploadIcon"></div>
           <p>Drop your rhyme or story here</p>
           <span class="upload-hint">or click to browse (.txt)</span>
         </div>
@@ -157,12 +153,12 @@
             <div class="character character-bear" id="character">
               <!-- Bear (default) -->
               <svg class="char-svg char-bear" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
-                <ellipse class="ear ear-left" cx="55" cy="55" rx="28" ry="30" fill="#C4956A"/>
-                <ellipse class="ear ear-right" cx="145" cy="55" rx="28" ry="30" fill="#C4956A"/>
-                <ellipse class="ear-inner ear-left" cx="55" cy="58" rx="14" ry="16" fill="#E8B88A"/>
-                <ellipse class="ear-inner ear-right" cx="145" cy="58" rx="14" ry="16" fill="#E8B88A"/>
+                <g class="anim-ear-left"><ellipse class="ear ear-left" cx="55" cy="55" rx="28" ry="30" fill="#C4956A"/>
+                <ellipse class="ear-inner ear-left" cx="55" cy="58" rx="14" ry="16" fill="#E8B88A"/></g>
+                <g class="anim-ear-right"><ellipse class="ear ear-right" cx="145" cy="55" rx="28" ry="30" fill="#C4956A"/>
+                <ellipse class="ear-inner ear-right" cx="145" cy="58" rx="14" ry="16" fill="#E8B88A"/></g>
                 <ellipse class="body" cx="100" cy="200" rx="55" ry="45" fill="#D4A574"/>
-                <ellipse class="head" cx="100" cy="110" rx="70" ry="65" fill="#D4A574"/>
+                <g class="anim-head"><ellipse class="head" cx="100" cy="110" rx="70" ry="65" fill="#D4A574"/>
                 <ellipse class="snout" cx="100" cy="125" rx="32" ry="26" fill="#E8C9A0"/>
                 <ellipse class="nose" cx="100" cy="118" rx="12" ry="9" fill="#5C3D2E"/>
                 <path class="mouth" d="M 82 132 Q 100 148 118 132" fill="none" stroke="#5C3D2E" stroke-width="3" stroke-linecap="round"/>
@@ -173,15 +169,17 @@
                 <circle class="shine shine-left" cx="78" cy="94" r="3" fill="white"/>
                 <circle class="shine shine-right" cx="134" cy="94" r="3" fill="white"/>
                 <ellipse class="cheek cheek-left" cx="58" cy="115" rx="12" ry="8" fill="#FFB6C1" opacity="0.6"/>
-                <ellipse class="cheek cheek-right" cx="142" cy="115" rx="12" ry="8" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse class="cheek cheek-right" cx="142" cy="115" rx="12" ry="8" fill="#FFB6C1" opacity="0.6"/></g>
                 <ellipse class="belly" cx="100" cy="205" rx="35" ry="28" fill="#E8C9A0"/>
+                <g class="anim-arm-left"><ellipse cx="42" cy="175" rx="16" ry="22" fill="#D4A574" transform="rotate(25 42 175)"/></g>
+                <g class="anim-arm-right"><ellipse cx="158" cy="175" rx="16" ry="22" fill="#D4A574" transform="rotate(-25 158 175)"/></g>
               </svg>
 
               <svg class="char-svg char-bunny hidden" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
-                <ellipse class="ear-long ear-left" cx="70" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(-8 70 40)"/>
-                <ellipse class="ear-long ear-right" cx="130" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(8 130 40)"/>
-                <ellipse class="ear-inner-long ear-left" cx="70" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(-8 70 42)"/>
-                <ellipse class="ear-inner-long ear-right" cx="130" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(8 130 42)"/>
+                <g class="anim-ear-left"><ellipse class="ear-long ear-left" cx="70" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(-8 70 40)"/>
+                <ellipse class="ear-inner-long ear-left" cx="70" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(-8 70 42)"/></g>
+                <g class="anim-ear-right"><ellipse class="ear-long ear-right" cx="130" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(8 130 40)"/>
+                <ellipse class="ear-inner-long ear-right" cx="130" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(8 130 42)"/></g>
                 <ellipse class="body" cx="100" cy="210" rx="50" ry="42" fill="#F5F0E8"/>
                 <circle class="head" cx="100" cy="130" r="60" fill="#F5F0E8"/>
                 <ellipse class="snout" cx="100" cy="140" rx="22" ry="18" fill="white"/>
@@ -270,9 +268,9 @@
                 <ellipse class="pupil pupil-right" cx="131" cy="97" rx="7" ry="9" fill="#2D5016"/>
                 <circle class="shine shine-left" cx="78" cy="94" r="3" fill="white"/>
                 <circle class="shine shine-right" cx="134" cy="94" r="3" fill="white"/>
-                <path class="wing wing-left" d="M 45 170 Q 10 140 20 110 Q 40 130 55 155 Z" fill="#5ABF6A" opacity="0.8"/>
-                <path class="wing wing-right" d="M 155 170 Q 190 140 180 110 Q 160 130 145 155 Z" fill="#5ABF6A" opacity="0.8"/>
-                <path class="tail" d="M 100 240 Q 80 260 60 250 Q 90 245 100 240" fill="#6BCB77"/>
+                <path class="wing wing-left anim-wing-left" d="M 45 170 Q 10 140 20 110 Q 40 130 55 155 Z" fill="#5ABF6A" opacity="0.8"/>
+                <path class="wing wing-right anim-wing-right" d="M 155 170 Q 190 140 180 110 Q 160 130 145 155 Z" fill="#5ABF6A" opacity="0.8"/>
+                <path class="tail anim-tail" d="M 100 240 Q 80 260 60 250 Q 90 245 100 240" fill="#6BCB77"/>
                 <ellipse class="cheek cheek-left" cx="58" cy="115" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
                 <ellipse class="cheek cheek-right" cx="142" cy="115" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
               </svg>
@@ -303,11 +301,11 @@
               </svg>
 
               <svg class="char-svg char-unicorn hidden" viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">
-                <polygon class="horn" points="100,15 92,55 108,55" fill="#FFD93D"/>
-                <ellipse class="horn-glow" cx="100" cy="35" rx="8" ry="15" fill="#FFF9C4" opacity="0.5"/>
-                <ellipse class="mane" cx="75" cy="70" rx="25" ry="20" fill="#FF6B9D" opacity="0.7"/>
+                <g class="anim-horn"><polygon class="horn" points="100,15 92,55 108,55" fill="#FFD93D"/>
+                <ellipse class="horn-glow" cx="100" cy="35" rx="8" ry="15" fill="#FFF9C4" opacity="0.5"/></g>
+                <g class="anim-mane"><ellipse class="mane" cx="75" cy="70" rx="25" ry="20" fill="#FF6B9D" opacity="0.7"/>
                 <ellipse class="mane m2" cx="125" cy="70" rx="25" ry="20" fill="#A855F7" opacity="0.7"/>
-                <ellipse class="mane m3" cx="100" cy="60" rx="20" ry="18" fill="#3B82F6" opacity="0.6"/>
+                <ellipse class="mane m3" cx="100" cy="60" rx="20" ry="18" fill="#3B82F6" opacity="0.6"/></g>
                 <ellipse class="body" cx="100" cy="210" rx="48" ry="42" fill="white"/>
                 <ellipse class="head" cx="100" cy="120" rx="58" ry="52" fill="white"/>
                 <ellipse class="snout" cx="100" cy="132" rx="22" ry="18" fill="#F8F0FF"/>
@@ -346,6 +344,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
   <script src="https://www.masswerk.at/mespeak/mespeak.js"></script>
+  <script src="js/svg-assets.js"></script>
   <script src="js/audio-export.js"></script>
   <script src="js/app.js"></script>
 </body>

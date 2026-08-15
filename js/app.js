@@ -34,7 +34,11 @@
   const spaceStars = document.getElementById('spaceStars');
   const shootingStars = document.getElementById('shootingStars');
   const bubbles = document.getElementById('bubbles');
-  const fishSchool = document.getElementById('fishSchool');
+  const mushrooms = document.getElementById('mushrooms');
+  const rocketWrap = document.getElementById('rocketWrap');
+  const coralWrap = document.getElementById('coralWrap');
+  const logoIcon = document.getElementById('logoIcon');
+  const uploadIcon = document.getElementById('uploadIcon');
 
   // State
   let sentences = [];
@@ -60,13 +64,6 @@
     unicorn: 'Sparkle Unicorn'
   };
 
-  const THEME_DECOR = {
-    meadow: ['✨', '⭐', '🌟', '💫', '🦋', '🐝', '🌸'],
-    forest: ['🍃', '🌿', '🦋', '🐛', '🌺', '🍀'],
-    space: ['🌟', '💫', '✨', '🛸', '☄️', '🌙'],
-    underwater: ['🐠', '🐟', '🦀', '🐙', '🫧', '💎']
-  };
-
   const SAMPLE_STORY = `Twinkle, twinkle, little star,
 How I wonder what you are!
 Up above the world so high,
@@ -78,9 +75,16 @@ How I wonder what you are!`;
   function initBackground() {
     buildForestTrees();
     buildFireflies();
+    buildMushrooms();
     buildSpaceStars();
+    buildRocket();
     buildBubbles();
     buildFish();
+    buildCoral();
+    if (logoIcon) logoIcon.appendChild(StorySVG.clone(StorySVG.logo()));
+    if (uploadIcon) uploadIcon.appendChild(StorySVG.clone(StorySVG.book()));
+    StorySVG.initCharButtons();
+    StorySVG.initThemeButtons();
     switchTheme('meadow');
   }
 
@@ -90,16 +94,49 @@ How I wonder what you are!`;
 
   function buildForestTrees() {
     clearContainer(forestTrees);
-    const treeEmojis = ['🌲', '🌳', '🌴'];
     for (let i = 0; i < 12; i++) {
-      const tree = document.createElement('span');
-      tree.className = 'tree';
-      tree.textContent = treeEmojis[i % 3];
-      tree.style.left = `${i * 9 - 2}%`;
-      tree.style.fontSize = `${1.8 + Math.random() * 2}rem`;
-      tree.style.animationDelay = `${Math.random() * 2}s`;
-      forestTrees.appendChild(tree);
+      const wrap = document.createElement('div');
+      wrap.className = 'tree';
+      wrap.style.left = `${i * 9 - 2}%`;
+      wrap.style.animationDelay = `${Math.random() * 2}s`;
+      wrap.appendChild(StorySVG.el(StorySVG.tree(i)));
+      forestTrees.appendChild(wrap);
     }
+  }
+
+  function buildMushrooms() {
+    clearContainer(mushrooms);
+    const positions = [
+      { left: '10%', bottom: '8%', delay: '0s', scale: 1 },
+      { left: '75%', bottom: '6%', delay: '1s', scale: 0.8 },
+      { left: '45%', bottom: '10%', delay: '0.5s', scale: 1.2 }
+    ];
+    positions.forEach((pos, i) => {
+      const m = document.createElement('div');
+      m.className = 'mushroom';
+      m.style.left = pos.left;
+      m.style.bottom = pos.bottom;
+      m.style.animationDelay = pos.delay;
+      m.style.transform = `scale(${pos.scale})`;
+      m.appendChild(StorySVG.el(StorySVG.mushroom(i)));
+      mushrooms.appendChild(m);
+    });
+  }
+
+  function buildRocket() {
+    clearContainer(rocketWrap);
+    const rocket = document.createElement('div');
+    rocket.className = 'rocket';
+    rocket.appendChild(StorySVG.el(StorySVG.rocket()));
+    rocketWrap.appendChild(rocket);
+  }
+
+  function buildCoral() {
+    clearContainer(coralWrap);
+    const coral = document.createElement('div');
+    coral.className = 'coral';
+    coral.appendChild(StorySVG.el(StorySVG.coral()));
+    coralWrap.appendChild(coral);
   }
 
   function buildFireflies() {
@@ -120,10 +157,11 @@ How I wonder what you are!`;
     for (let i = 0; i < 60; i++) {
       const star = document.createElement('span');
       star.className = 'space-star';
-      star.textContent = Math.random() > 0.7 ? '✦' : '·';
+      const size = 2 + Math.random() * 4;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
       star.style.left = `${Math.random() * 100}%`;
       star.style.top = `${Math.random() * 100}%`;
-      star.style.fontSize = `${4 + Math.random() * 12}px`;
       star.style.animationDelay = `${Math.random() * 3}s`;
       spaceStars.appendChild(star);
     }
@@ -154,33 +192,32 @@ How I wonder what you are!`;
 
   function buildFish() {
     clearContainer(fishSchool);
-    const fishEmojis = ['🐠', '🐟', '🐡', '🦈'];
     for (let i = 0; i < 6; i++) {
-      const fish = document.createElement('span');
+      const fish = document.createElement('div');
       fish.className = 'fish';
-      fish.textContent = fishEmojis[i % fishEmojis.length];
       fish.style.top = `${30 + Math.random() * 50}%`;
       fish.style.animationDelay = `${Math.random() * 8}s`;
       fish.style.animationDuration = `${8 + Math.random() * 10}s`;
+      fish.appendChild(StorySVG.el(StorySVG.fish(i)));
       fishSchool.appendChild(fish);
     }
   }
 
   function buildFloatingDecor(theme) {
     clearContainer(floatingDecor);
-    const emojis = THEME_DECOR[theme] || THEME_DECOR.meadow;
-    const count = theme === 'space' ? 25 : 18;
+    const count = theme === 'space' ? 20 : 15;
 
     for (let i = 0; i < count; i++) {
-      const el = document.createElement('span');
-      el.className = 'float-item';
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      el.style.left = `${Math.random() * 100}%`;
-      el.style.top = `${Math.random() * 70}%`;
-      el.style.fontSize = `${12 + Math.random() * 14}px`;
-      el.style.animationDelay = `${Math.random() * 5}s`;
-      el.style.animationDuration = `${3 + Math.random() * 5}s`;
-      floatingDecor.appendChild(el);
+      const wrap = document.createElement('div');
+      wrap.className = 'float-item';
+      wrap.style.left = `${Math.random() * 100}%`;
+      wrap.style.top = `${Math.random() * 70}%`;
+      wrap.style.animationDelay = `${Math.random() * 5}s`;
+      wrap.style.animationDuration = `${3 + Math.random() * 5}s`;
+      const size = 24 + Math.random() * 20;
+      wrap.style.width = `${size}px`;
+      wrap.appendChild(StorySVG.el(StorySVG.buildDecor(theme, i)));
+      floatingDecor.appendChild(wrap);
     }
   }
 
@@ -575,11 +612,10 @@ How I wonder what you are!`;
   function activateSparkles() {
     sparkleRing.classList.add('active');
     sparkleRing.innerHTML = '';
-    const emojis = ['✨', '⭐', '💫', '🌟'];
     for (let i = 0; i < 8; i++) {
-      const sp = document.createElement('span');
+      const sp = document.createElement('div');
       sp.className = 'sparkle-item';
-      sp.textContent = emojis[i % emojis.length];
+      sp.appendChild(StorySVG.el(StorySVG.sparkle()));
       const angle = (i / 8) * Math.PI * 2;
       const dist = 80 + Math.random() * 40;
       sp.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);

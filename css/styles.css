@@ -233,8 +233,44 @@ body {
 }
 
 .logo-icon {
-  font-size: 2.5rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-svg {
+  width: 100%;
+  height: 100%;
   animation: logoBounce 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(168, 85, 247, 0.3));
+}
+
+.upload-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 8px;
+}
+
+.upload-book {
+  width: 100%;
+  height: 100%;
+  animation: bookFloat 3s ease-in-out infinite;
+}
+
+.book-smile {
+  animation: bookSmile 2s ease-in-out infinite;
+}
+
+@keyframes bookFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes bookSmile {
+  0%, 100% { d: path("M28 48 Q32 52 36 48"); }
+  50% { d: path("M28 48 Q32 54 36 48"); }
 }
 
 @keyframes logoBounce {
@@ -308,11 +344,6 @@ body {
   transform: scale(1.02);
 }
 
-.upload-icon {
-  font-size: 2.5rem;
-  margin-bottom: 8px;
-}
-
 .upload-zone p {
   font-weight: 700;
   color: #4A5568;
@@ -382,17 +413,38 @@ body {
 }
 
 .char-btn {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border: 3px solid #E2E8F0;
   border-radius: 50%;
   background: white;
-  font-size: 1.4rem;
+  padding: 4px;
   cursor: pointer;
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.char-btn .char-preview {
+  width: 100%;
+  height: 100%;
+  animation: previewBounce 2s ease-in-out infinite;
+}
+
+.char-btn:hover .char-preview {
+  animation: previewWiggle 0.4s ease-in-out infinite;
+}
+
+@keyframes previewBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes previewWiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
 }
 
 .char-btn:hover {
@@ -499,13 +551,29 @@ body {
 
 .theme-btn {
   flex: 1;
-  height: 48px;
+  height: 52px;
   border: 3px solid #E2E8F0;
   border-radius: var(--radius-sm);
   background: white;
-  font-size: 1.5rem;
+  padding: 4px;
   cursor: pointer;
   transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.theme-btn .theme-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.theme-btn .preview-glow {
+  animation: previewGlow 2s ease-in-out infinite;
+}
+
+@keyframes previewGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
 .theme-btn:hover {
@@ -952,20 +1020,23 @@ body.theme-forest .panel {
 
 .mushrooms {
   position: absolute;
-  bottom: 8%;
+  bottom: 0;
   left: 0;
   right: 0;
+  height: 15%;
+  pointer-events: none;
 }
 
 .mushroom {
   position: absolute;
-  font-size: 1.8rem;
+  width: 40px;
   animation: mushroomBounce 3s ease-in-out infinite;
 }
 
-.mushroom.m1 { left: 10%; animation-delay: 0s; }
-.mushroom.m2 { left: 75%; animation-delay: 1s; font-size: 1.4rem; }
-.mushroom.m3 { left: 45%; animation-delay: 0.5s; }
+.mushroom .scene-mushroom {
+  width: 100%;
+  height: auto;
+}
 
 @keyframes mushroomBounce {
   0%, 100% { transform: translateY(0); }
@@ -1024,13 +1095,34 @@ body.theme-space .panel {
   50% { transform: translateY(-12px) rotate(5deg); }
 }
 
+.rocket-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .rocket {
   position: absolute;
-  top: 20%;
-  left: 60%;
-  font-size: 2.5rem;
+  top: 18%;
+  left: 55%;
+  width: 50px;
   animation: rocketFly 15s linear infinite;
-  filter: drop-shadow(0 0 10px rgba(255, 217, 61, 0.6));
+  filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.5));
+}
+
+.rocket .scene-rocket {
+  width: 100%;
+  height: auto;
+}
+
+.rocket-flame {
+  animation: flameFlicker 0.15s ease-in-out infinite alternate;
+  transform-origin: center top;
+}
+
+@keyframes flameFlicker {
+  0% { transform: scaleY(1); opacity: 0.8; }
+  100% { transform: scaleY(1.3); opacity: 1; }
 }
 
 @keyframes rocketFly {
@@ -1047,7 +1139,9 @@ body.theme-space .panel {
 
 .space-star {
   position: absolute;
-  color: white;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 4px white;
   animation: spaceTwinkle 2s ease-in-out infinite;
 }
 
@@ -1127,9 +1221,20 @@ body.theme-underwater .panel {
 
 .fish {
   position: absolute;
-  font-size: 1.8rem;
+  width: 50px;
   animation: fishSwim linear infinite;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.fish .scene-fish {
+  width: 100%;
+  height: auto;
+  animation: fishTail 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes fishTail {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(1.05) translateX(2px); }
 }
 
 @keyframes fishSwim {
@@ -1158,17 +1263,254 @@ body.theme-underwater .panel {
   50% { transform: rotate(5deg); }
 }
 
-.coral {
+.coral-wrap {
   position: absolute;
-  bottom: 5%;
-  right: 8%;
-  font-size: 2.5rem;
+  bottom: 0;
+  right: 5%;
+  width: 120px;
+}
+
+.coral {
   animation: coralBob 4s ease-in-out infinite;
+}
+
+.coral .scene-coral {
+  width: 100%;
+  height: auto;
+}
+
+.mushrooms {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15%;
+  pointer-events: none;
+}
+
+.mushroom {
+  position: absolute;
+  width: 40px;
+  animation: mushroomBounce 3s ease-in-out infinite;
+}
+
+.mushroom .scene-mushroom {
+  width: 100%;
+  height: auto;
 }
 
 @keyframes coralBob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
+}
+
+body.theme-underwater .hills {
+  display: none;
+}
+
+/* ===== SVG Scene Animations ===== */
+.scene-tree {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+.tree {
+  position: absolute;
+  bottom: 0;
+  animation: treeSway 4s ease-in-out infinite;
+}
+
+.scene-butterfly {
+  width: 100%;
+  animation: butterflyWing 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes butterflyWing {
+  0% { transform: scaleX(1); }
+  100% { transform: scaleX(0.92); }
+}
+
+.scene-flower {
+  width: 100%;
+  animation: flowerSway 3s ease-in-out infinite;
+}
+
+@keyframes flowerSway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.scene-bee {
+  width: 100%;
+  animation: beeBuzz 0.1s ease-in-out infinite alternate;
+}
+
+@keyframes beeBuzz {
+  0% { transform: translateX(-1px); }
+  100% { transform: translateX(1px); }
+}
+
+.scene-leaf {
+  width: 100%;
+  animation: leafFall 8s linear infinite;
+}
+
+@keyframes leafFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(80px) rotate(360deg); opacity: 0.3; }
+}
+
+.scene-star, .scene-sparkle {
+  width: 100%;
+  animation: decorSpin 4s linear infinite;
+}
+
+@keyframes decorSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.scene-ufo {
+  width: 100%;
+  animation: ufoHover 3s ease-in-out infinite;
+}
+
+@keyframes ufoHover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.scene-jellyfish {
+  width: 100%;
+  animation: jellyPulse 2s ease-in-out infinite;
+}
+
+@keyframes jellyPulse {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.9); }
+}
+
+.float-item svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ===== Character body-part animations ===== */
+.anim-ear-left {
+  transform-origin: 55px 55px;
+  animation: earTwitchLeft 3s ease-in-out infinite;
+}
+
+.anim-ear-right {
+  transform-origin: 145px 55px;
+  animation: earTwitchRight 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes earTwitchLeft {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-8deg); }
+  96% { transform: rotate(4deg); }
+}
+
+@keyframes earTwitchRight {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(8deg); }
+  96% { transform: rotate(-4deg); }
+}
+
+.anim-arm-left {
+  transform-origin: 42px 175px;
+}
+
+.anim-arm-right {
+  transform-origin: 158px 175px;
+}
+
+.character.speaking .anim-arm-right {
+  animation: armWave 0.5s ease-in-out infinite;
+}
+
+@keyframes armWave {
+  0%, 100% { transform: rotate(-25deg); }
+  50% { transform: rotate(-50deg); }
+}
+
+.anim-wing-left {
+  transform-origin: 45px 170px;
+}
+
+.anim-wing-right {
+  transform-origin: 155px 170px;
+}
+
+.character.speaking .anim-wing-left {
+  animation: wingFlapLeft 0.3s ease-in-out infinite;
+}
+
+.character.speaking .anim-wing-right {
+  animation: wingFlapRight 0.3s ease-in-out infinite;
+}
+
+@keyframes wingFlapLeft {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-15deg); }
+}
+
+@keyframes wingFlapRight {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
+}
+
+.anim-tail {
+  transform-origin: 100px 240px;
+}
+
+.character.speaking .anim-tail {
+  animation: tailWag 0.6s ease-in-out infinite;
+}
+
+@keyframes tailWag {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.anim-horn {
+  transform-origin: 100px 55px;
+  animation: hornGlow 2s ease-in-out infinite;
+}
+
+@keyframes hornGlow {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.05); filter: brightness(1.2); }
+}
+
+.anim-mane {
+  animation: maneFlow 3s ease-in-out infinite;
+}
+
+@keyframes maneFlow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+.character.speaking .flipper-left {
+  animation: flipperWave 0.5s ease-in-out infinite;
+}
+
+.character.speaking .flipper-right {
+  animation: flipperWave 0.5s ease-in-out infinite 0.25s;
+}
+
+@keyframes flipperWave {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(35deg); }
+}
+
+.sparkle-item svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Hide meadow-only elements in other themes */
