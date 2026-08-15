@@ -780,6 +780,10 @@ body {
 .character {
   position: relative;
   z-index: 5;
+}
+
+/* Idle bounce replaced by dance.css .dancing */
+.character:not(.dancing) {
   animation: characterIdle 3s ease-in-out infinite;
 }
 
@@ -788,7 +792,7 @@ body {
   50% { transform: translateY(-12px); }
 }
 
-.character.speaking {
+.character.speaking:not(.dancing) {
   animation: characterSpeak 0.4s ease-in-out infinite;
 }
 
@@ -797,7 +801,7 @@ body {
   50% { transform: translateY(-8px) scale(1.03); }
 }
 
-.character.excited {
+.character.excited:not(.dancing) {
   animation: characterExcited 0.5s ease-in-out infinite;
 }
 
@@ -1275,26 +1279,6 @@ body.theme-underwater .panel {
 }
 
 .coral .scene-coral {
-  width: 100%;
-  height: auto;
-}
-
-.mushrooms {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 15%;
-  pointer-events: none;
-}
-
-.mushroom {
-  position: absolute;
-  width: 40px;
-  animation: mushroomBounce 3s ease-in-out infinite;
-}
-
-.mushroom .scene-mushroom {
   width: 100%;
   height: auto;
 }

@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/dance.css" />
 </head>
 <body class="theme-meadow">
   <!-- Fancy animated background -->
@@ -95,8 +96,8 @@
         <div class="character-picker">
           <label>Pick your storyteller:</label>
           <div class="characters" role="group" aria-label="Choose character">
-            <button class="char-btn active" data-char="bear" title="Buddy Bear">🐻</button>
-            <button class="char-btn" data-char="bunny" title="Bouncy Bunny">🐰</button>
+            <button class="char-btn" data-char="bear" title="Buddy Bear">🐻</button>
+            <button class="char-btn active" data-char="bunny" title="Bouncy Bunny">🐰</button>
             <button class="char-btn" data-char="fox" title="Foxy Fox">🦊</button>
             <button class="char-btn" data-char="owl" title="Wise Owl">🦉</button>
             <button class="char-btn" data-char="penguin" title="Pippin Penguin">🐧</button>
@@ -150,9 +151,14 @@
 
           <!-- Animated cartoon character -->
           <div class="character-wrapper" id="characterWrapper">
-            <div class="character character-bear" id="character">
-              <!-- Bear (default) -->
-              <svg class="char-svg char-bear" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+            <div class="dance-floor" aria-hidden="true">
+              <div class="dance-spotlight"></div>
+              <div class="dance-shadow" id="danceShadow"></div>
+            </div>
+            <div class="music-notes" id="musicNotes" aria-hidden="true"></div>
+            <div class="character dancing character-bunny" id="character">
+              <!-- Bear -->
+              <svg class="char-svg char-bear hidden" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
                 <g class="anim-ear-left"><ellipse class="ear ear-left" cx="55" cy="55" rx="28" ry="30" fill="#C4956A"/>
                 <ellipse class="ear-inner ear-left" cx="55" cy="58" rx="14" ry="16" fill="#E8B88A"/></g>
                 <g class="anim-ear-right"><ellipse class="ear ear-right" cx="145" cy="55" rx="28" ry="30" fill="#C4956A"/>
@@ -175,24 +181,58 @@
                 <g class="anim-arm-right"><ellipse cx="158" cy="175" rx="16" ry="22" fill="#D4A574" transform="rotate(-25 158 175)"/></g>
               </svg>
 
-              <svg class="char-svg char-bunny hidden" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
-                <g class="anim-ear-left"><ellipse class="ear-long ear-left" cx="70" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(-8 70 40)"/>
-                <ellipse class="ear-inner-long ear-left" cx="70" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(-8 70 42)"/></g>
-                <g class="anim-ear-right"><ellipse class="ear-long ear-right" cx="130" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(8 130 40)"/>
-                <ellipse class="ear-inner-long ear-right" cx="130" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(8 130 42)"/></g>
-                <ellipse class="body" cx="100" cy="210" rx="50" ry="42" fill="#F5F0E8"/>
-                <circle class="head" cx="100" cy="130" r="60" fill="#F5F0E8"/>
-                <ellipse class="snout" cx="100" cy="140" rx="22" ry="18" fill="white"/>
-                <ellipse class="nose" cx="100" cy="133" rx="8" ry="6" fill="#FFB6C1"/>
-                <path class="mouth" d="M 88 145 Q 100 155 112 145" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
-                <ellipse class="eye eye-left" cx="75" cy="118" rx="12" ry="14" fill="white"/>
-                <ellipse class="eye eye-right" cx="125" cy="118" rx="12" ry="14" fill="white"/>
-                <circle class="pupil pupil-left" cx="77" cy="120" r="6" fill="#333"/>
-                <circle class="pupil pupil-right" cx="127" cy="120" r="6" fill="#333"/>
-                <circle class="shine shine-left" cx="79" cy="118" r="2.5" fill="white"/>
-                <circle class="shine shine-right" cx="129" cy="118" r="2.5" fill="white"/>
-                <ellipse class="cheek cheek-left" cx="62" cy="135" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
-                <ellipse class="cheek cheek-right" cx="138" cy="135" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
+              <svg class="char-svg char-bunny" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cotton tail -->
+                <g class="dance-tail">
+                  <circle cx="100" cy="228" r="14" fill="white" opacity="0.95"/>
+                  <circle cx="100" cy="228" r="9" fill="#F5F0E8"/>
+                </g>
+                <!-- Back legs -->
+                <g class="dance-leg-left">
+                  <ellipse cx="72" cy="248" rx="14" ry="22" fill="#F5F0E8"/>
+                  <ellipse class="dance-foot" cx="68" cy="268" rx="16" ry="9" fill="#E8E0D8"/>
+                </g>
+                <g class="dance-leg-right">
+                  <ellipse cx="128" cy="248" rx="14" ry="22" fill="#F5F0E8"/>
+                  <ellipse class="dance-foot" cx="132" cy="268" rx="16" ry="9" fill="#E8E0D8"/>
+                </g>
+                <!-- Torso -->
+                <g class="dance-torso">
+                  <ellipse cx="100" cy="210" rx="48" ry="40" fill="#F5F0E8"/>
+                  <ellipse cx="100" cy="215" rx="32" ry="26" fill="white" opacity="0.5"/>
+                  <!-- Front paws -->
+                  <g class="dance-paw-left">
+                    <ellipse cx="58" cy="198" rx="13" ry="18" fill="#F5F0E8" transform="rotate(30 58 198)"/>
+                    <ellipse cx="52" cy="212" rx="9" ry="7" fill="#E8E0D8"/>
+                  </g>
+                  <g class="dance-paw-right">
+                    <ellipse cx="142" cy="198" rx="13" ry="18" fill="#F5F0E8" transform="rotate(-30 142 198)"/>
+                    <ellipse cx="148" cy="212" rx="9" ry="7" fill="#E8E0D8"/>
+                  </g>
+                </g>
+                <!-- Head + ears -->
+                <g class="dance-head">
+                  <g class="dance-ear-left">
+                    <ellipse cx="68" cy="42" rx="16" ry="50" fill="#F5F0E8" transform="rotate(-10 68 42)"/>
+                    <ellipse cx="68" cy="44" rx="8" ry="36" fill="#FFB6C1" transform="rotate(-10 68 44)"/>
+                  </g>
+                  <g class="dance-ear-right">
+                    <ellipse cx="132" cy="42" rx="16" ry="50" fill="#F5F0E8" transform="rotate(10 132 42)"/>
+                    <ellipse cx="132" cy="44" rx="8" ry="36" fill="#FFB6C1" transform="rotate(10 132 44)"/>
+                  </g>
+                  <circle cx="100" cy="128" r="56" fill="#F5F0E8"/>
+                  <ellipse cx="100" cy="138" rx="24" ry="20" fill="white"/>
+                  <ellipse cx="100" cy="131" rx="9" ry="7" fill="#FFB6C1"/>
+                  <path class="mouth" d="M 88 145 Q 100 155 112 145" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+                  <ellipse class="eye eye-left" cx="78" cy="118" rx="13" ry="15" fill="white"/>
+                  <ellipse class="eye eye-right" cx="122" cy="118" rx="13" ry="15" fill="white"/>
+                  <circle class="pupil pupil-left" cx="80" cy="120" r="6" fill="#333"/>
+                  <circle class="pupil pupil-right" cx="124" cy="120" r="6" fill="#333"/>
+                  <circle class="shine shine-left" cx="82" cy="118" r="2.5" fill="white"/>
+                  <circle class="shine shine-right" cx="126" cy="118" r="2.5" fill="white"/>
+                  <ellipse class="cheek cheek-left" cx="64" cy="134" rx="11" ry="8" fill="#FFB6C1" opacity="0.55"/>
+                  <ellipse class="cheek cheek-right" cx="136" cy="134" rx="11" ry="8" fill="#FFB6C1" opacity="0.55"/>
+                </g>
               </svg>
 
               <svg class="char-svg char-fox hidden" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">

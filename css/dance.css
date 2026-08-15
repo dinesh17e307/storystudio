@@ -1,0 +1,323 @@
+/* ===== StoryBuddy – Real-life dancing character animations ===== */
+
+.dance-floor {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 40px;
+  z-index: 1;
+}
+
+.dance-spotlight {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(ellipse at center bottom, rgba(255, 217, 61, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  animation: spotlightPulse 2s ease-in-out infinite;
+}
+
+@keyframes spotlightPulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+.dance-shadow {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 100px;
+  height: 18px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: shadowSquash 1s ease-in-out infinite;
+}
+
+.music-notes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  overflow: hidden;
+}
+
+.music-note {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  opacity: 0;
+  animation: noteFloat 2s ease-out infinite;
+}
+
+.music-note svg {
+  width: 24px;
+  height: 24px;
+}
+
+@keyframes noteFloat {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.5); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--nx), -120px) rotate(20deg) scale(1); }
+}
+
+.character.dancing {
+  animation: danceGroove 1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-origin: center bottom;
+}
+
+.character.dancing.dance-party {
+  animation: danceGrooveFast 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.character.dancing.dance-celebrate {
+  animation: danceCelebrate 0.4s ease-in-out infinite;
+}
+
+@keyframes danceGroove {
+  0%   { transform: translateX(-12px) rotate(-6deg) translateY(0) scaleY(1); }
+  8%   { transform: translateX(-10px) rotate(-5deg) translateY(-22px) scaleY(1.06); }
+  16%  { transform: translateX(-6px) rotate(-3deg) translateY(-8px) scaleY(0.97); }
+  25%  { transform: translateX(0) rotate(0deg) translateY(0) scaleY(1); }
+  33%  { transform: translateX(6px) rotate(3deg) translateY(-22px) scaleY(1.06); }
+  41%  { transform: translateX(10px) rotate(5deg) translateY(-8px) scaleY(0.97); }
+  50%  { transform: translateX(12px) rotate(6deg) translateY(0) scaleY(1); }
+  58%  { transform: translateX(10px) rotate(5deg) translateY(-18px) scaleY(1.05); }
+  66%  { transform: translateX(6px) rotate(3deg) translateY(-6px) scaleY(0.98); }
+  75%  { transform: translateX(0) rotate(0deg) translateY(0) scaleY(1); }
+  83%  { transform: translateX(-6px) rotate(-3deg) translateY(-18px) scaleY(1.05); }
+  91%  { transform: translateX(-10px) rotate(-5deg) translateY(-6px) scaleY(0.98); }
+  100% { transform: translateX(-12px) rotate(-6deg) translateY(0) scaleY(1); }
+}
+
+@keyframes danceGrooveFast {
+  0%   { transform: translateX(-14px) rotate(-8deg) translateY(0) scaleY(1); }
+  12%  { transform: translateX(-8px) rotate(-4deg) translateY(-28px) scaleY(1.08); }
+  25%  { transform: translateX(0) rotate(0deg) translateY(0) scaleY(1); }
+  37%  { transform: translateX(8px) rotate(4deg) translateY(-28px) scaleY(1.08); }
+  50%  { transform: translateX(14px) rotate(8deg) translateY(0) scaleY(1); }
+  62%  { transform: translateX(8px) rotate(4deg) translateY(-24px) scaleY(1.06); }
+  75%  { transform: translateX(0) rotate(0deg) translateY(0) scaleY(1); }
+  87%  { transform: translateX(-8px) rotate(-4deg) translateY(-24px) scaleY(1.06); }
+  100% { transform: translateX(-14px) rotate(-8deg) translateY(0) scaleY(1); }
+}
+
+@keyframes danceCelebrate {
+  0%, 100% { transform: translateY(0) rotate(-10deg) scale(1.1); }
+  25% { transform: translateY(-35px) rotate(10deg) scale(1.15); }
+  50% { transform: translateY(-10px) rotate(-10deg) scale(1.12); }
+  75% { transform: translateY(-35px) rotate(10deg) scale(1.15); }
+}
+
+@keyframes shadowSquash {
+  0%, 25%, 50%, 75%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.25; }
+  8%, 33%, 58%, 83% { transform: translateX(-50%) scaleX(0.7); opacity: 0.15; }
+  16%, 41%, 66%, 91% { transform: translateX(-50%) scaleX(1.15); opacity: 0.3; }
+}
+
+.dance-torso {
+  transform-origin: 100px 210px;
+  animation: torsoBounce 1s ease-in-out infinite;
+}
+
+.dance-party .dance-torso { animation-duration: 0.55s; }
+
+@keyframes torsoBounce {
+  0%, 25%, 50%, 75%, 100% { transform: translateY(0) rotate(0deg); }
+  8%, 33%, 58%, 83% { transform: translateY(-6px) rotate(-2deg); }
+  16%, 41%, 66%, 91% { transform: translateY(2px) rotate(2deg) scaleY(0.96); }
+}
+
+.dance-head {
+  transform-origin: 100px 128px;
+  animation: headBob 1s ease-in-out infinite;
+}
+
+.dance-party .dance-head { animation-duration: 0.55s; }
+
+@keyframes headBob {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  12% { transform: rotate(4deg) translateY(-8px); }
+  25% { transform: rotate(2deg) translateY(-2px); }
+  37% { transform: rotate(-4deg) translateY(-8px); }
+  50% { transform: rotate(-2deg) translateY(0); }
+  62% { transform: rotate(5deg) translateY(-6px); }
+  75% { transform: rotate(0deg) translateY(-2px); }
+  87% { transform: rotate(-5deg) translateY(-6px); }
+}
+
+.dance-ear-left {
+  transform-origin: 68px 90px;
+  animation: earFlopLeft 1s ease-in-out infinite;
+}
+
+.dance-ear-right {
+  transform-origin: 132px 90px;
+  animation: earFlopRight 1s ease-in-out infinite;
+}
+
+.dance-party .dance-ear-left,
+.dance-party .dance-ear-right { animation-duration: 0.55s; }
+
+@keyframes earFlopLeft {
+  0%, 100% { transform: rotate(-10deg); }
+  25% { transform: rotate(-22deg); }
+  50% { transform: rotate(-5deg); }
+  75% { transform: rotate(-20deg); }
+}
+
+@keyframes earFlopRight {
+  0%, 100% { transform: rotate(10deg); }
+  25% { transform: rotate(22deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: rotate(20deg); }
+}
+
+.dance-leg-left {
+  transform-origin: 72px 248px;
+  animation: legStepLeft 1s ease-in-out infinite;
+}
+
+.dance-leg-right {
+  transform-origin: 128px 248px;
+  animation: legStepRight 1s ease-in-out infinite;
+}
+
+.dance-party .dance-leg-left,
+.dance-party .dance-leg-right { animation-duration: 0.55s; }
+
+@keyframes legStepLeft {
+  0%, 50%, 100% { transform: translateY(0) rotate(0deg); }
+  8% { transform: translateY(-14px) rotate(-12deg); }
+  16% { transform: translateY(4px) rotate(5deg) scaleY(0.92); }
+  58% { transform: translateY(6px) rotate(8deg) scaleY(0.9); }
+  66% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes legStepRight {
+  0%, 50%, 100% { transform: translateY(6px) rotate(8deg) scaleY(0.9); }
+  8% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-14px) rotate(12deg); }
+  41% { transform: translateY(4px) rotate(-5deg) scaleY(0.92); }
+  58% { transform: translateY(-14px) rotate(12deg); }
+  66% { transform: translateY(0) rotate(0deg); }
+}
+
+.dance-paw-left {
+  transform-origin: 58px 198px;
+  animation: pawWaveLeft 1s ease-in-out infinite;
+}
+
+.dance-paw-right {
+  transform-origin: 142px 198px;
+  animation: pawWaveRight 1s ease-in-out infinite;
+}
+
+.dance-party .dance-paw-left,
+.dance-party .dance-paw-right { animation-duration: 0.55s; }
+
+@keyframes pawWaveLeft {
+  0%, 100% { transform: rotate(30deg) translateY(0); }
+  25% { transform: rotate(-40deg) translateY(-20px); }
+  50% { transform: rotate(10deg) translateY(-5px); }
+  75% { transform: rotate(-50deg) translateY(-25px); }
+}
+
+@keyframes pawWaveRight {
+  0%, 100% { transform: rotate(-30deg) translateY(-5px); }
+  25% { transform: rotate(50deg) translateY(-25px); }
+  50% { transform: rotate(-10deg) translateY(0); }
+  75% { transform: rotate(40deg) translateY(-20px); }
+}
+
+.dance-tail {
+  transform-origin: 100px 228px;
+  animation: tailWiggle 0.5s ease-in-out infinite;
+}
+
+@keyframes tailWiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.1); }
+}
+
+.anim-arm-left {
+  transform-origin: 42px 175px;
+  animation: pawWaveLeft 1s ease-in-out infinite;
+}
+
+.anim-arm-right {
+  transform-origin: 158px 175px;
+  animation: pawWaveRight 1s ease-in-out infinite;
+}
+
+.dance-party .anim-arm-left,
+.dance-party .anim-arm-right { animation-duration: 0.55s; }
+
+.character-unicorn .leg.leg-1,
+.character-unicorn .hoof.hoof-1 {
+  transform-origin: 72px 248px;
+  animation: legStepLeft 1s ease-in-out infinite;
+}
+
+.character-unicorn .leg.leg-2,
+.character-unicorn .hoof.hoof-2 {
+  transform-origin: 128px 248px;
+  animation: legStepRight 1s ease-in-out infinite;
+}
+
+.character-penguin .flipper-left {
+  transform-origin: 48px 185px;
+  animation: pawWaveLeft 1s ease-in-out infinite;
+}
+
+.character-penguin .flipper-right {
+  transform-origin: 152px 185px;
+  animation: pawWaveRight 1s ease-in-out infinite;
+}
+
+.character-dragon .anim-wing-left {
+  animation: wingDanceLeft 0.4s ease-in-out infinite;
+}
+
+.character-dragon .anim-wing-right {
+  animation: wingDanceRight 0.4s ease-in-out infinite;
+}
+
+@keyframes wingDanceLeft {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }
+}
+
+@keyframes wingDanceRight {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(25deg); }
+}
+
+.character.dancing.speaking {
+  animation-name: danceGrooveFast;
+}
+
+.character.dancing.excited {
+  animation-name: danceCelebrate;
+}
+
+.character-bunny.dancing .char-bunny {
+  filter: drop-shadow(0 10px 20px rgba(255, 182, 193, 0.4));
+}
+
+.char-btn:hover .char-preview,
+.char-btn.active .char-preview {
+  animation: previewDance 0.8s ease-in-out infinite;
+}
+
+@keyframes previewDance {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  25% { transform: translateY(-6px) rotate(5deg); }
+  50% { transform: translateY(-2px) rotate(-3deg); }
+  75% { transform: translateY(-8px) rotate(4deg); }
+}

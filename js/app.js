@@ -34,9 +34,11 @@
   const spaceStars = document.getElementById('spaceStars');
   const shootingStars = document.getElementById('shootingStars');
   const bubbles = document.getElementById('bubbles');
+  const fishSchool = document.getElementById('fishSchool');
   const mushrooms = document.getElementById('mushrooms');
   const rocketWrap = document.getElementById('rocketWrap');
   const coralWrap = document.getElementById('coralWrap');
+  const musicNotes = document.getElementById('musicNotes');
   const logoIcon = document.getElementById('logoIcon');
   const uploadIcon = document.getElementById('uploadIcon');
 
@@ -64,12 +66,44 @@
     unicorn: 'Sparkle Unicorn'
   };
 
+  let musicNoteTimer = null;
+
+  const MUSIC_NOTE_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3v12.5a4 4 0 1 0 2 3.5V7l8-2v10.5a4 4 0 1 0 2 3.5V3l-12 4z" fill="#A855F7"/>
+  </svg>`;
+
   const SAMPLE_STORY = `Twinkle, twinkle, little star,
 How I wonder what you are!
 Up above the world so high,
 Like a diamond in the sky.
 Twinkle, twinkle, little star,
 How I wonder what you are!`;
+
+  function spawnMusicNote() {
+    if (!musicNotes) return;
+    const note = document.createElement('div');
+    note.className = 'music-note';
+    note.innerHTML = MUSIC_NOTE_SVG;
+    note.style.setProperty('--nx', `${-40 + Math.random() * 80}px`);
+    note.style.left = `${40 + Math.random() * 20}%`;
+    note.style.animationDuration = `${1.2 + Math.random() * 0.8}s`;
+    musicNotes.appendChild(note);
+    setTimeout(() => note.remove(), 2500);
+  }
+
+  function startMusicNotes() {
+    stopMusicNotes();
+    spawnMusicNote();
+    musicNoteTimer = setInterval(spawnMusicNote, 600);
+  }
+
+  function stopMusicNotes() {
+    if (musicNoteTimer) {
+      clearInterval(musicNoteTimer);
+      musicNoteTimer = null;
+    }
+    if (musicNotes) musicNotes.innerHTML = '';
+  }
 
   // ===== Initialize background decorations =====
   function initBackground() {
@@ -443,12 +477,14 @@ How I wonder what you are!`;
   function onStoryComplete() {
     isPlaying = false;
     showBubbleText(`🎉 The end! Great story, friend! — ${CHAR_NAMES[currentChar]}`);
-    character.classList.add('excited');
+    character.classList.add('excited', 'dance-celebrate');
+    startMusicNotes();
     launchConfetti();
     resetControls();
 
     setTimeout(() => {
-      character.classList.remove('excited');
+      character.classList.remove('excited', 'dance-celebrate');
+      stopMusicNotes();
       sparkleRing.classList.remove('active');
       sparkleRing.innerHTML = '';
     }, 3000);
@@ -566,15 +602,19 @@ How I wonder what you are!`;
   }
 
   function startSpeakingAnimation() {
-    character.classList.add('speaking');
+    character.classList.add('speaking', 'dance-party');
     speechBubble.classList.add('speaking');
     activateSparkles();
+    startMusicNotes();
     animateMouth();
   }
 
   function stopSpeakingAnimation() {
-    character.classList.remove('speaking');
+    character.classList.remove('speaking', 'dance-party');
     speechBubble.classList.remove('speaking');
+    if (!character.classList.contains('excited')) {
+      stopMusicNotes();
+    }
     if (mouthAnimInterval) {
       clearInterval(mouthAnimInterval);
       mouthAnimInterval = null;
@@ -665,8 +705,8 @@ How I wonder what you are!`;
     const activeSvg = document.querySelector(`.char-${char}`);
     if (activeSvg) activeSvg.classList.remove('hidden');
 
-    character.className = `character character-${char}`;
-    showBubbleText(`Hi! I'm ${CHAR_NAMES[char]}! Ready to tell your story! 🎤`);
+    character.className = `character dancing character-${char}`;
+    showBubbleText(`Hi! I'm ${CHAR_NAMES[char]}! Watch me dance and tell your story! 💃`);
   }
 
   // ===== File upload =====
@@ -735,7 +775,7 @@ How I wonder what you are!`;
   initBackground();
   storyInput.value = SAMPLE_STORY;
   updatePlayButton();
-  switchCharacter('bear');
+  switchCharacter('bunny');
 
   if (!('speechSynthesis' in window)) {
     showBubbleText('📖 Visual story mode — upload a story and press play! (Voice works best in Chrome)');
