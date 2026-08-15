@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoryBuddy – Animated Story Time!</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Fancy animated background -->
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="rainbow"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="stars" id="stars"></div>
+    <div class="butterflies" id="butterflies"></div>
+    <div class="hills">
+      <div class="hill hill-back"></div>
+      <div class="hill hill-front"></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">📚</span>
+        <h1>StoryBuddy</h1>
+      </div>
+      <p class="tagline">Upload a rhyme or story — watch your cartoon friend tell it!</p>
+    </header>
+
+    <main class="main">
+      <!-- Upload & controls panel -->
+      <aside class="panel upload-panel">
+        <h2>✨ Your Story</h2>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" accept=".txt,.md,.text" hidden />
+          <div class="upload-icon">📖</div>
+          <p>Drop your rhyme or story here</p>
+          <span class="upload-hint">or click to browse (.txt)</span>
+        </div>
+
+        <div class="divider"><span>or type it</span></div>
+
+        <textarea
+          id="storyInput"
+          placeholder="Once upon a time, in a land of candy clouds..."
+          rows="6"
+        ></textarea>
+
+        <div class="character-picker">
+          <label>Pick your storyteller:</label>
+          <div class="characters" role="group" aria-label="Choose character">
+            <button class="char-btn active" data-char="bear" title="Buddy Bear">🐻</button>
+            <button class="char-btn" data-char="bunny" title="Bouncy Bunny">🐰</button>
+            <button class="char-btn" data-char="fox" title="Foxy Fox">🦊</button>
+            <button class="char-btn" data-char="owl" title="Wise Owl">🦉</button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-primary" id="playBtn" disabled>
+            <span class="btn-icon">▶</span> Tell My Story!
+          </button>
+          <button class="btn btn-secondary" id="pauseBtn" disabled>
+            <span class="btn-icon">⏸</span> Pause
+          </button>
+          <button class="btn btn-ghost" id="stopBtn" disabled>
+            <span class="btn-icon">⏹</span> Stop
+          </button>
+        </div>
+
+        <div class="voice-settings">
+          <label for="voiceSpeed">Voice speed</label>
+          <input type="range" id="voiceSpeed" min="0.5" max="1.2" step="0.1" value="0.85" />
+          <label for="voicePitch">Cartoon pitch</label>
+          <input type="range" id="voicePitch" min="1" max="2.2" step="0.1" value="1.7" />
+        </div>
+      </aside>
+
+      <!-- Story stage -->
+      <section class="stage" aria-live="polite">
+        <div class="stage-frame">
+          <!-- Speech bubble tooltip -->
+          <div class="speech-bubble" id="speechBubble" aria-label="Character speech">
+            <div class="bubble-tail"></div>
+            <p class="bubble-text" id="bubbleText">
+              Hi friend! Upload a story or type one — I'll read it in my silly cartoon voice! 🎤
+            </p>
+            <div class="bubble-dots" id="bubbleDots" hidden>
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <!-- Animated cartoon character -->
+          <div class="character-wrapper" id="characterWrapper">
+            <div class="character character-bear" id="character">
+              <!-- Bear (default) -->
+              <svg class="char-svg char-bear" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+                <ellipse class="ear ear-left" cx="55" cy="55" rx="28" ry="30" fill="#C4956A"/>
+                <ellipse class="ear ear-right" cx="145" cy="55" rx="28" ry="30" fill="#C4956A"/>
+                <ellipse class="ear-inner ear-left" cx="55" cy="58" rx="14" ry="16" fill="#E8B88A"/>
+                <ellipse class="ear-inner ear-right" cx="145" cy="58" rx="14" ry="16" fill="#E8B88A"/>
+                <ellipse class="body" cx="100" cy="200" rx="55" ry="45" fill="#D4A574"/>
+                <ellipse class="head" cx="100" cy="110" rx="70" ry="65" fill="#D4A574"/>
+                <ellipse class="snout" cx="100" cy="125" rx="32" ry="26" fill="#E8C9A0"/>
+                <ellipse class="nose" cx="100" cy="118" rx="12" ry="9" fill="#5C3D2E"/>
+                <path class="mouth" d="M 82 132 Q 100 148 118 132" fill="none" stroke="#5C3D2E" stroke-width="3" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="72" cy="95" rx="14" ry="16" fill="white"/>
+                <ellipse class="eye eye-right" cx="128" cy="95" rx="14" ry="16" fill="white"/>
+                <circle class="pupil pupil-left" cx="75" cy="97" r="7" fill="#2D1810"/>
+                <circle class="pupil pupil-right" cx="131" cy="97" r="7" fill="#2D1810"/>
+                <circle class="shine shine-left" cx="78" cy="94" r="3" fill="white"/>
+                <circle class="shine shine-right" cx="134" cy="94" r="3" fill="white"/>
+                <ellipse class="cheek cheek-left" cx="58" cy="115" rx="12" ry="8" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse class="cheek cheek-right" cx="142" cy="115" rx="12" ry="8" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse class="belly" cx="100" cy="205" rx="35" ry="28" fill="#E8C9A0"/>
+              </svg>
+
+              <svg class="char-svg char-bunny hidden" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                <ellipse class="ear-long ear-left" cx="70" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(-8 70 40)"/>
+                <ellipse class="ear-long ear-right" cx="130" cy="40" rx="18" ry="55" fill="#F5F0E8" transform="rotate(8 130 40)"/>
+                <ellipse class="ear-inner-long ear-left" cx="70" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(-8 70 42)"/>
+                <ellipse class="ear-inner-long ear-right" cx="130" cy="42" rx="9" ry="40" fill="#FFB6C1" transform="rotate(8 130 42)"/>
+                <ellipse class="body" cx="100" cy="210" rx="50" ry="42" fill="#F5F0E8"/>
+                <circle class="head" cx="100" cy="130" r="60" fill="#F5F0E8"/>
+                <ellipse class="snout" cx="100" cy="140" rx="22" ry="18" fill="white"/>
+                <ellipse class="nose" cx="100" cy="133" rx="8" ry="6" fill="#FFB6C1"/>
+                <path class="mouth" d="M 88 145 Q 100 155 112 145" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="75" cy="118" rx="12" ry="14" fill="white"/>
+                <ellipse class="eye eye-right" cx="125" cy="118" rx="12" ry="14" fill="white"/>
+                <circle class="pupil pupil-left" cx="77" cy="120" r="6" fill="#333"/>
+                <circle class="pupil pupil-right" cx="127" cy="120" r="6" fill="#333"/>
+                <circle class="shine shine-left" cx="79" cy="118" r="2.5" fill="white"/>
+                <circle class="shine shine-right" cx="129" cy="118" r="2.5" fill="white"/>
+                <ellipse class="cheek cheek-left" cx="62" cy="135" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
+                <ellipse class="cheek cheek-right" cx="138" cy="135" rx="10" ry="7" fill="#FFB6C1" opacity="0.5"/>
+              </svg>
+
+              <svg class="char-svg char-fox hidden" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="ear-tri ear-left" points="50,70 30,20 70,50" fill="#E8751A"/>
+                <polygon class="ear-tri ear-right" points="150,70 170,20 130,50" fill="#E8751A"/>
+                <polygon class="ear-inner-tri ear-left" points="52,65 38,30 65,52" fill="#FFE4C4"/>
+                <polygon class="ear-inner-tri ear-right" points="148,65 162,30 135,52" fill="#FFE4C4"/>
+                <ellipse class="body" cx="100" cy="200" rx="48" ry="40" fill="#E8751A"/>
+                <ellipse class="head" cx="100" cy="110" rx="62" ry="58" fill="#E8751A"/>
+                <ellipse class="face-white" cx="100" cy="125" rx="35" ry="30" fill="#FFE4C4"/>
+                <ellipse class="nose" cx="100" cy="118" rx="10" ry="8" fill="#333"/>
+                <path class="mouth" d="M 85 128 Q 100 142 115 128" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+                <ellipse class="eye eye-left" cx="75" cy="95" rx="13" ry="15" fill="white"/>
+                <ellipse class="eye eye-right" cx="125" cy="95" rx="13" ry="15" fill="white"/>
+                <circle class="pupil pupil-left" cx="78" cy="97" r="6" fill="#2D1810"/>
+                <circle class="pupil pupil-right" cx="128" cy="97" r="6" fill="#2D1810"/>
+                <circle class="shine shine-left" cx="80" cy="95" r="2.5" fill="white"/>
+                <circle class="shine shine-right" cx="130" cy="95" r="2.5" fill="white"/>
+                <ellipse class="cheek cheek-left" cx="60" cy="112" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
+                <ellipse class="cheek cheek-right" cx="140" cy="112" rx="10" ry="7" fill="#FFB6C1" opacity="0.4"/>
+              </svg>
+
+              <svg class="char-svg char-owl hidden" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+                <ellipse class="ear-tuft ear-left" cx="55" cy="55" rx="12" ry="18" fill="#8B6914"/>
+                <ellipse class="ear-tuft ear-right" cx="145" cy="55" rx="12" ry="18" fill="#8B6914"/>
+                <ellipse class="body" cx="100" cy="200" rx="55" ry="48" fill="#C4A35A"/>
+                <ellipse class="head" cx="100" cy="115" rx="68" ry="62" fill="#C4A35A"/>
+                <ellipse class="belly" cx="100" cy="195" rx="38" ry="35" fill="#F5E6C8"/>
+                <ellipse class="eye-big eye-left" cx="72" cy="105" rx="28" ry="30" fill="white"/>
+                <ellipse class="eye-big eye-right" cx="128" cy="105" rx="28" ry="30" fill="white"/>
+                <circle class="pupil pupil-left" cx="75" cy="108" r="14" fill="#2D1810"/>
+                <circle class="pupil pupil-right" cx="131" cy="108" r="14" fill="#2D1810"/>
+                <circle class="shine shine-left" cx="80" cy="102" r="5" fill="white"/>
+                <circle class="shine shine-right" cx="136" cy="102" r="5" fill="white"/>
+                <polygon class="beak" points="100,125 88,140 112,140" fill="#E8A020"/>
+                <path class="mouth" d="M 88 140 Q 100 148 112 140" fill="none" stroke="#C47A10" stroke-width="2"/>
+              </svg>
+            </div>
+
+            <div class="sparkle-ring" id="sparkleRing" aria-hidden="true"></div>
+          </div>
+
+          <div class="progress-bar" id="progressBar" hidden>
+            <div class="progress-fill" id="progressFill"></div>
+            <span class="progress-label" id="progressLabel">Line 1 of 5</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Made with 💛 for little storytellers everywhere</p>
+    </footer>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
