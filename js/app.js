@@ -41,6 +41,7 @@
   const musicNotes = document.getElementById('musicNotes');
   const logoIcon = document.getElementById('logoIcon');
   const uploadIcon = document.getElementById('uploadIcon');
+  const rhymeList = document.getElementById('rhymeList');
 
   // State
   let sentences = [];
@@ -709,6 +710,49 @@ How I wonder what you are!`;
     showBubbleText(`Hi! I'm ${CHAR_NAMES[char]}! Watch me dance and tell your story! 💃`);
   }
 
+  // ===== Famous rhyme suggestions =====
+  function initRhymeSuggestions() {
+    if (!rhymeList || typeof FamousRhymes === 'undefined') return;
+
+    FamousRhymes.forEach((rhyme) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'rhyme-chip';
+      chip.dataset.rhymeId = rhyme.id;
+      chip.setAttribute('role', 'listitem');
+      chip.title = `Load "${rhyme.title}"`;
+      chip.innerHTML = `<span class="rhyme-chip-icon">${rhyme.icon}</span><span>${rhyme.title}</span>`;
+      chip.addEventListener('click', () => loadRhyme(rhyme));
+      rhymeList.appendChild(chip);
+    });
+  }
+
+  function setActiveRhymeChip(rhymeId) {
+    document.querySelectorAll('.rhyme-chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.rhymeId === rhymeId);
+    });
+  }
+
+  function loadRhyme(rhyme) {
+    storyInput.value = rhyme.text;
+    updatePlayButton();
+    setActiveRhymeChip(rhyme.id);
+
+    const chip = document.querySelector(`.rhyme-chip[data-rhyme-id="${rhyme.id}"]`);
+    if (chip) {
+      chip.classList.add('pop');
+      setTimeout(() => chip.classList.remove('pop'), 350);
+    }
+
+    showBubbleText(`Yay! "${rhyme.title}" is ready! Press "Tell My Story!" 🎶`);
+    character.classList.add('excited', 'dance-celebrate');
+    startMusicNotes();
+    setTimeout(() => {
+      character.classList.remove('excited', 'dance-celebrate');
+      stopMusicNotes();
+    }, 1500);
+  }
+
   // ===== File upload =====
   function handleFile(file) {
     if (!file) return;
@@ -716,6 +760,7 @@ How I wonder what you are!`;
     reader.onload = (e) => {
       storyInput.value = e.target.result;
       updatePlayButton();
+      setActiveRhymeChip('');
       showBubbleText(`Ooh, "${file.name}"! Click "Tell My Story!" when you're ready! 📖`);
       character.classList.add('excited');
       setTimeout(() => character.classList.remove('excited'), 800);
@@ -750,7 +795,10 @@ How I wonder what you are!`;
     handleFile(e.target.files[0]);
   });
 
-  storyInput.addEventListener('input', updatePlayButton);
+  storyInput.addEventListener('input', () => {
+    updatePlayButton();
+    setActiveRhymeChip('');
+  });
 
   playBtn.addEventListener('click', playStory);
 
@@ -773,8 +821,10 @@ How I wonder what you are!`;
 
   // ===== Boot =====
   initBackground();
+  initRhymeSuggestions();
   storyInput.value = SAMPLE_STORY;
   updatePlayButton();
+  setActiveRhymeChip('twinkle');
   switchCharacter('bunny');
 
   if (!('speechSynthesis' in window)) {
